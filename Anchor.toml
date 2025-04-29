@@ -17,3 +17,6 @@ wallet = "~/.config/solana/id.json"
 
 [scripts]
 test = "yarn run ts-mocha -p ./tsconfig.json -t 1000000 tests/**/*.ts"
+create = "node scripts/create-token.ts"
+lock = "npx ts-node scripts/lock-token.ts"
+unlock = "npx ts-node scripts/unlock-token.ts"
