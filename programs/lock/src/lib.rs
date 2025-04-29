@@ -2,7 +2,7 @@ use anchor_lang::prelude::*;
 use anchor_spl::token::{self, Mint, Token, TokenAccount, Transfer};
 use solana_program::sysvar::clock::Clock; // Import Clock
 
-declare_id!("DNVoUZKSxuVzdFjGbYTJGczd8niAmqAc8EtW29pyUgcJ"); // Replace with your program ID after build
+declare_id!("6o1UQjdJXtQWLEMFckDhCzaBAhNEY4wzTnJs9DejqC2M"); // Replace with your program ID after build
 
 #[program]
 pub mod lock {
