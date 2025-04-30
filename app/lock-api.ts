@@ -6,22 +6,10 @@ import {
   Keypair,
   PublicKey,
   SystemProgram,
-  LAMPORTS_PER_SOL,
-  Connection,
   TransactionResponse,
   VersionedTransactionResponse,
-  Signer,
 } from "@solana/web3.js";
-import {
-  TOKEN_PROGRAM_ID,
-  createMint,
-  createAssociatedTokenAccount,
-  mintTo,
-  getAccount, // To fetch token account info
-  getAssociatedTokenAddressSync,
-  getAssociatedTokenAddress,
-  withdrawWithheldTokensFromAccounts,
-} from "@solana/spl-token";
+import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from "@solana/spl-token";
 
 export interface LockAccountData {
   user: string;
@@ -67,12 +55,16 @@ export class LockApi {
 
   async deposit(
     user: Keypair,
-    mint: PublicKey,
+    mint: string,
     amount: string,
     unlockTime: number
   ): Promise<string> {
     const [lockAccountPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("lock_account"), user.publicKey.toBuffer(), mint.toBuffer()],
+      [
+        Buffer.from("lock_account"),
+        user.publicKey.toBuffer(),
+        new PublicKey(mint).toBuffer(),
+      ],
       this.programId
     );
     const [vaultTokenAccount] = PublicKey.findProgramAddressSync(
@@ -80,7 +72,7 @@ export class LockApi {
       this.programId
     );
     const userTokenAccount = await getAssociatedTokenAddress(
-      mint,
+      new PublicKey(mint),
       user.publicKey
     );
     const program = this.newSignableProgram(user);
@@ -99,9 +91,14 @@ export class LockApi {
       .rpc();
   }
 
-  async withdraw(user: Keypair, mint: PublicKey): Promise<string> {
+  async withdraw(user: Keypair, mint: string): Promise<string> {
+    const mintPublicKey = new PublicKey(mint);
     const [lockAccountPda] = PublicKey.findProgramAddressSync(
-      [Buffer.from("lock_account"), user.publicKey.toBuffer(), mint.toBuffer()],
+      [
+        Buffer.from("lock_account"),
+        user.publicKey.toBuffer(),
+        mintPublicKey.toBuffer(),
+      ],
       this.programId
     );
     const [vaultTokenAccountPda] = PublicKey.findProgramAddressSync(
@@ -109,7 +106,7 @@ export class LockApi {
       this.programId
     );
     const userTokenAccount = await getAssociatedTokenAddress(
-      mint,
+      mintPublicKey,
       user.publicKey
     );
     const program = this.newSignableProgram(user);
@@ -129,11 +126,15 @@ export class LockApi {
   }
 
   async getLockAccountData(
-    mint: PublicKey,
-    user: PublicKey
+    mint: string,
+    user: string
   ): Promise<LockAccountData> {
     const [lock] = PublicKey.findProgramAddressSync(
-      [Buffer.from("lock_account"), user.toBuffer(), mint.toBuffer()],
+      [
+        Buffer.from("lock_account"),
+        new PublicKey(user).toBuffer(),
+        new PublicKey(mint).toBuffer(),
+      ],
       this.programId
     );
     const data = await this.program.account.lockAccount.fetch(lock);

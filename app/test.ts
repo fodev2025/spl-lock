@@ -8,13 +8,16 @@ const key: number[] = JSON.parse(
 const user = Keypair.fromSecretKey(new Uint8Array(key));
 const rpcUrl = "https://api.devnet.solana.com";
 
-const mint = new PublicKey("95Ha3i4XYZQ5WeYn4qWLPR1MLukqVgGES5iKEV3oT2Ci");
+const mint = "95Ha3i4XYZQ5WeYn4qWLPR1MLukqVgGES5iKEV3oT2Ci";
 const programId = "6o1UQjdJXtQWLEMFckDhCzaBAhNEY4wzTnJs9DejqC2M";
 
 const lockApi = new LockApi(programId, rpcUrl);
 
 async function lockDataTest() {
-  const lockData = await lockApi.getLockAccountData(mint, user.publicKey);
+  const lockData = await lockApi.getLockAccountData(
+    mint,
+    user.publicKey.toBase58()
+  );
   console.log("Lock Data:", lockData);
 }
 
