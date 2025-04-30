@@ -42,7 +42,7 @@ async function withdrawTest() {
   console.log("Token 已成功解锁！");
 }
 
-// depositTest();
+depositTest();
 // withdrawTest();
 // evntsTest();
 // lockDataTest();

@@ -10,6 +10,7 @@ import {
   VersionedTransactionResponse,
 } from "@solana/web3.js";
 import { TOKEN_PROGRAM_ID, getAssociatedTokenAddress } from "@solana/spl-token";
+import { deepCopy } from "deep-copy-ts";
 
 export interface LockAccountData {
   user: string;
@@ -50,7 +51,7 @@ export class LockApi {
       new anchor.Wallet(Keypair.generate()),
       { commitment: "confirmed" }
     );
-    this.program = new Program<Lock>(idl as anchor.Idl, provider);
+    this.program = new Program<Lock>(this.getIdl(), provider);
   }
 
   async deposit(
@@ -214,6 +215,12 @@ export class LockApi {
       new anchor.Wallet(user),
       { commitment: "confirmed" }
     );
-    return new Program<Lock>(idl as anchor.Idl, provider);
+    return new Program<Lock>(this.getIdl(), provider);
+  }
+
+  private getIdl(): anchor.Idl {
+    const curIdl = deepCopy(idl);
+    curIdl.address = this.programId.toBase58();
+    return curIdl as anchor.Idl;
   }
 }
