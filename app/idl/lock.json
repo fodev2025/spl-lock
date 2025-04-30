@@ -1,0 +1,388 @@
+{
+  "address": "6o1UQjdJXtQWLEMFckDhCzaBAhNEY4wzTnJs9DejqC2M",
+  "metadata": {
+    "name": "lock",
+    "version": "0.1.0",
+    "spec": "0.1.0",
+    "description": "Created with Anchor"
+  },
+  "instructions": [
+    {
+      "name": "deposit",
+      "discriminator": [
+        242,
+        35,
+        198,
+        137,
+        82,
+        225,
+        242,
+        182
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true
+        },
+        {
+          "name": "user_token_account",
+          "writable": true
+        },
+        {
+          "name": "mint"
+        },
+        {
+          "name": "vault_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  116,
+                  111,
+                  107,
+                  101,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "lock_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lock_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  111,
+                  99,
+                  107,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "system_program",
+          "address": "11111111111111111111111111111111"
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        },
+        {
+          "name": "rent",
+          "address": "SysvarRent111111111111111111111111111111111"
+        }
+      ],
+      "args": [
+        {
+          "name": "amount",
+          "type": "u64"
+        },
+        {
+          "name": "unlock_time",
+          "type": "i64"
+        }
+      ]
+    },
+    {
+      "name": "withdraw",
+      "discriminator": [
+        183,
+        18,
+        70,
+        156,
+        148,
+        109,
+        161,
+        34
+      ],
+      "accounts": [
+        {
+          "name": "user",
+          "writable": true,
+          "signer": true,
+          "relations": [
+            "lock_account"
+          ]
+        },
+        {
+          "name": "user_token_account",
+          "writable": true
+        },
+        {
+          "name": "mint",
+          "relations": [
+            "lock_account"
+          ]
+        },
+        {
+          "name": "vault_token_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  118,
+                  97,
+                  117,
+                  108,
+                  116,
+                  95,
+                  116,
+                  111,
+                  107,
+                  101,
+                  110
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "lock_account"
+              }
+            ]
+          }
+        },
+        {
+          "name": "lock_account",
+          "writable": true,
+          "pda": {
+            "seeds": [
+              {
+                "kind": "const",
+                "value": [
+                  108,
+                  111,
+                  99,
+                  107,
+                  95,
+                  97,
+                  99,
+                  99,
+                  111,
+                  117,
+                  110,
+                  116
+                ]
+              },
+              {
+                "kind": "account",
+                "path": "user"
+              },
+              {
+                "kind": "account",
+                "path": "mint"
+              }
+            ]
+          }
+        },
+        {
+          "name": "token_program",
+          "address": "TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA"
+        }
+      ],
+      "args": []
+    }
+  ],
+  "accounts": [
+    {
+      "name": "LockAccount",
+      "discriminator": [
+        223,
+        64,
+        71,
+        124,
+        255,
+        86,
+        118,
+        192
+      ]
+    }
+  ],
+  "events": [
+    {
+      "name": "DepositEvent",
+      "discriminator": [
+        120,
+        248,
+        61,
+        83,
+        31,
+        142,
+        107,
+        144
+      ]
+    },
+    {
+      "name": "WithdrawEvent",
+      "discriminator": [
+        22,
+        9,
+        133,
+        26,
+        160,
+        44,
+        71,
+        192
+      ]
+    }
+  ],
+  "errors": [
+    {
+      "code": 6000,
+      "name": "ZeroAmount",
+      "msg": "Deposit amount must be greater than zero."
+    },
+    {
+      "code": 6001,
+      "name": "UnlockTimeInPast",
+      "msg": "Unlock time must be in the future."
+    },
+    {
+      "code": 6002,
+      "name": "UnlockTimeMustBeGreaterOrEqual",
+      "msg": "New unlock time must be greater than or equal to the current unlock time."
+    },
+    {
+      "code": 6003,
+      "name": "AmountOverflow",
+      "msg": "Amount overflow."
+    },
+    {
+      "code": 6004,
+      "name": "NoTokensLocked",
+      "msg": "No tokens locked for this user and mint."
+    },
+    {
+      "code": 6005,
+      "name": "StillLocked",
+      "msg": "Funds are still locked."
+    },
+    {
+      "code": 6006,
+      "name": "InvalidMint",
+      "msg": "Invalid token mint provided."
+    },
+    {
+      "code": 6007,
+      "name": "InvalidOwner",
+      "msg": "Account owner mismatch."
+    },
+    {
+      "code": 6008,
+      "name": "BumpError",
+      "msg": "Failed to get bump seed."
+    }
+  ],
+  "types": [
+    {
+      "name": "DepositEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "deposited_amount",
+            "type": "u64"
+          },
+          {
+            "name": "total_locked_amount",
+            "type": "u64"
+          },
+          {
+            "name": "unlock_time",
+            "type": "i64"
+          }
+        ]
+      }
+    },
+    {
+      "name": "LockAccount",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "amount",
+            "type": "u64"
+          },
+          {
+            "name": "unlock_time",
+            "type": "i64"
+          },
+          {
+            "name": "bump",
+            "type": "u8"
+          }
+        ]
+      }
+    },
+    {
+      "name": "WithdrawEvent",
+      "type": {
+        "kind": "struct",
+        "fields": [
+          {
+            "name": "user",
+            "type": "pubkey"
+          },
+          {
+            "name": "mint",
+            "type": "pubkey"
+          },
+          {
+            "name": "withdrawn_amount",
+            "type": "u64"
+          }
+        ]
+      }
+    }
+  ]
+}
