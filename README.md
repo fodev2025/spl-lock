@@ -40,3 +40,13 @@ anchor keys sync
 anchor run lock
 anchor run unlock
 ```
+
+### 8. 关闭升级权限
+使用以下命令关闭升级权限：
+```bash
+solana program set-upgrade-authority <PROGRAM_ID> --final
+或者
+solana program set-upgrade-authority <PROGRAM_ID> --new-upgrade-authority <NEW_AUTHORITY_PUBKEY>
+<NEW_AUTHORITY_PUBKEY> 是新的升级权限账户的公钥。要关闭升级权限，你需要将其设置为 UpgradeAuthority 程序的特殊地址 11111111111111111111111111111111 （System Program ID），或者使用 --final 标志，这会将升级权限设置为 None 。
+NEW_AUTHORITY_PUBKEY为11111111111111111111111111111111
+```

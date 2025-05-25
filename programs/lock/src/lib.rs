@@ -261,6 +261,4 @@ pub enum ErrorCode {
     InvalidMint,
     #[msg("Account owner mismatch.")]
     InvalidOwner,
-    #[msg("Failed to get bump seed.")]
-    BumpError,
 }
