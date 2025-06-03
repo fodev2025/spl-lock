@@ -10,7 +10,7 @@ anchor.setProvider(provider);
 const program = anchor.workspace.lock as Program<Lock>;
 
 // 2. 配置参数
-const mint = new PublicKey("CncXPgQrBRsj22g8c3L5UoYrgRctbHkFgPAbhJkrpRpb"); // 替换为你的mint地址
+const mint = new PublicKey("JDzPbXboQYWVmdxXS3LbvjM52RtsV1QaSv2AzoCiai2o"); // 替换为你的mint地址
 const user = provider.wallet as anchor.Wallet;
 
 (async () => {

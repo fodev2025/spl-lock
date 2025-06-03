@@ -12,7 +12,7 @@ const program = anchor.workspace.lock as Program<Lock>;
 console.log("programId", program.programId.toBase58());
 
 // 2. 配置参数
-const mint = new PublicKey("CncXPgQrBRsj22g8c3L5UoYrgRctbHkFgPAbhJkrpRpb"); // 替换为你的mint地址
+const mint = new PublicKey("JDzPbXboQYWVmdxXS3LbvjM52RtsV1QaSv2AzoCiai2o"); // 替换为你的mint地址
 const user = provider.wallet as anchor.Wallet;
 const amount = new BN(100_000); // 例如锁定0.1 token（6位小数）
 const unlockTime = new BN(Math.floor(Date.now() / 1000) + 60); // 60秒后可解锁
@@ -38,13 +38,8 @@ const unlockTime = new BN(Math.floor(Date.now() / 1000) + 60); // 60秒后可解
     .deposit(amount, unlockTime)
     .accounts({
       user: user.publicKey,
-      userTokenAccount: userTokenAccount,
+      userTokenAccount,
       mint,
-      vaultTokenAccount: vaultTokenAccount,
-      lockAccount: lockAccountPda,
-      systemProgram: SystemProgram.programId,
-      tokenProgram: TOKEN_PROGRAM_ID,
-      rent: anchor.web3.SYSVAR_RENT_PUBKEY,
     } as unknown as anchor.Accounts)
     .rpc();
 

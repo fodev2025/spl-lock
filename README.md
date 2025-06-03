@@ -50,3 +50,16 @@ solana program set-upgrade-authority <PROGRAM_ID> --new-upgrade-authority <NEW_A
 <NEW_AUTHORITY_PUBKEY> 是新的升级权限账户的公钥。要关闭升级权限，你需要将其设置为 UpgradeAuthority 程序的特殊地址 11111111111111111111111111111111 （System Program ID），或者使用 --final 标志，这会将升级权限设置为 None 。
 NEW_AUTHORITY_PUBKEY为11111111111111111111111111111111
 ```
+
+### 9.主网上线
+使用以下命令在主网上线：
+Program Id: 6o1UQjdJXtQWLEMFckDhCzaBAhNEY4wzTnJs9DejqC2M
+
+Signature: 5hjCM2nurnjdzZoaJesCiPehH7AqK7vmeWg2Qhe3VjcbFmJFy15Kmw5yLpCeFrS6kYa9AiYd8AcV9Eg3bY2inEnE
+
+Deploy success
+```bash
+anchor deploy --provider.cluster mainnet
+solana program set-upgrade-authority 6o1UQjdJXtQWLEMFckDhCzaBAhNEY4wzTnJs9DejqC2M --final --provider.cluster mainnet
+
+```

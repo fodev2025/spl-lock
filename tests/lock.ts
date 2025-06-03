@@ -282,11 +282,6 @@ describe("lock", () => {
           user: payer.publicKey,
           userTokenAccount: userTokenAccountPubkey,
           mint: mintPubkey,
-          vaultTokenAccount: vaultTokenAccountPda,
-          lockAccount: lockAccountPda,
-          systemProgram: SystemProgram.programId,
-          tokenProgram: TOKEN_PROGRAM_ID,
-          rent: anchor.web3.SYSVAR_RENT_PUBKEY,
         })
         .signers([payer.payer])
         .rpc();
